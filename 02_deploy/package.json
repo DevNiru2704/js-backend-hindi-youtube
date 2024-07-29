@@ -1,0 +1,18 @@
+{
+  "name": "demochaibackend",
+  "version": "1.0.0",
+  "description": "a basic app to deploy",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "node",
+    "chai"
+  ],
+  "author": "nirmalya mandal",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
