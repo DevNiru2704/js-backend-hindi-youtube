@@ -1,0 +1,21 @@
+{
+  "name": "05_chaiaurbackend",
+  "version": "1.0.0",
+  "description": "a backend at chai aur code channel - youtube",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "echo \"nodemon src/index.js"
+  },
+  "keywords": [
+    "javascript",
+    "backend",
+    "chai"
+  ],
+  "author": "Nirmalya Mandal",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "prettier": "^3.3.3"
+  }
+}
