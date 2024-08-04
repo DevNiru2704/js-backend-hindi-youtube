@@ -15,7 +15,7 @@ app.use(express.urlencoded({
     limit:"16kb"
 })) 
 
-app.use(expres.static("public")) //This is to tell express that if I want to keep some assets such as images,svg,video,etc.,
+app.use(express.static("public")) //This is to tell express that if I want to keep some assets such as images,svg,video,etc.,
                                  //I will keep it in the public folder.
 
 app.use(cookieParser()) //This allows us to configure cookies.
