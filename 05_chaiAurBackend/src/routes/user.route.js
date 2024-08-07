@@ -8,4 +8,5 @@ router.route("/register").post(registerUser) //Now here /users will work as a pr
 // router.route("login").post(registerUser) //http://localhost:8000/users/login. We can avoid writing the same code again and again using this process
 
 
+
 export default router

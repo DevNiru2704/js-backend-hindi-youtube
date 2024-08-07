@@ -19,5 +19,5 @@ app.use(cookieParser()) //This allows us to configure cookies.
 
 //routes
 import userRouter from "./routes/user.route.js";
-app.use("api/v1/users",userRouter)  //Using express we could declare routes with app.get directly but here since everything is separate we have to use a middleware. Now the user route will pass on the control to userRouter. Now go to userRouter. Giving versions and api are good practices.
+app.use("/api/v1/users",userRouter)  //Using express we could declare routes with app.get directly but here since everything is separate we have to use a middleware. Now the user route will pass on the control to userRouter. Now go to userRouter. Giving versions and api are good practices.
 export {app}
