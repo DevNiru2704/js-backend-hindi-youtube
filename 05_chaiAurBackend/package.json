@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "install": "npm i bcrypt cloudinary cookie-parser cors dotenv express jsonwebtoken mongoose mongoose-aggregate-paginate-v2 multer"
   },
   "keywords": [
     "javascript",
