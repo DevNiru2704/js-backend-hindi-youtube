@@ -9,4 +9,4 @@ const storage = multer.diskStorage({
   })
   
 // export const upload = multer({ storage: storage }) //Not ES6
-export const upload = multer({ storage}) //ES6
+export const upload = multer({storage}) //ES6
