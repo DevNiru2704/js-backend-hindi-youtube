@@ -64,20 +64,20 @@ userSchema.pre("save", async function (next) {
     // this.password=bcrypt.hash(this.password,10) //we have encrypted this password but there is a problem. Whenever the data is saved it will encrypt the password . But we want to only encrypt the password one time. To avoid this we need to give a check.
     if (this.isModified("password")) {
         //This solves the problem
-        this.password =await bcrypt.hash(this.password, 10);
+        this.password = await bcrypt.hash(this.password, 10);
         next();
     }
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {
     //We are making a function that compares whether the password is correct or not.
-    return await bcrypt.compare(password, this.password);
+    return await bcrypt.compare(password, this.password); //this.password is the correct password.
 };
 
-userSchema.methods.generateAccessToken = async function () {
+userSchema.methods.generateAccessToken = async function () { //Access tokens are short lived
     return jwt.sign(
         {
-            //This is a payload. In a JSON Web Token (JWT), a payload is the part that contains the actual data or claims about the user or the session, such as user ID or roles.
+            //This is a payload. In a JSON Web Token (JWT), a payload is just an object that contains the actual data or claims about the user or the session, such as user ID or roles.
 
             _id: this.id,
             email: this.email,
@@ -91,7 +91,7 @@ userSchema.methods.generateAccessToken = async function () {
     ); //generates a sign in token
 };
 
-userSchema.methods.generateRefreshToken = async function () {
+userSchema.methods.generateRefreshToken = async function () { //Refresh tokens are long lived
     return jwt.sign(
         {
             //Refresh token has less information
