@@ -1,9 +1,11 @@
 import express from "express";
-import cors from "cors";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+
 const app=express();
 
 // Middlewares
+app.use(cookieParser()) //This allows us to configure cookies.
 app.use(cors({
     origin:process.env.CORS_ORIGIN,
     credentials:true
@@ -15,7 +17,7 @@ app.use(express.urlencoded({
 })) 
 app.use(express.static("./public")) //This is to tell express that if I want to keep some assets such as images,svg,video,etc.,
                                  //I will keep it in the public folder.
-app.use(cookieParser()) //This allows us to configure cookies.
+
 
 //routes
 import userRouter from "./routes/user.route.js";

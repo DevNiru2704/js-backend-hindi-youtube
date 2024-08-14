@@ -3,7 +3,7 @@ import {ApiError} from "../utils/ApiErrors.js";
 import {User} from "../models/user.models.js";
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
-import {app} from "app.js";
+
 
 const generateAccessAndRefreshToken= async (userId)=>{
     try {
@@ -84,7 +84,7 @@ const registerUser = asyncHandler(async (req,res) => {
     })
 
     //check user object
-    const createdUser = await User.findById(user.__id).select("-password -refreshToken") //In the select function we give the name of the keys that we do not want
+    const createdUser = await User.findById(user._id).select("-password -refreshToken") //In the select function we give the name of the keys that we do not want
 
     if(!createdUser){
         throw new ApiError(500,"Something went wrong while registering the user")
@@ -103,6 +103,7 @@ const loginUser=asyncHandler(async (req,res)=>{
     //if password is correct, generate access and refresh token
     //send the tokens in the cookies
     const {username,email,password}=req.body
+    console.log(email)
     if(!username && !email){
         throw new ApiError(400,"Username or email required!")
     }
@@ -125,11 +126,14 @@ const loginUser=asyncHandler(async (req,res)=>{
 
     const {accessToken,refreshToken,}=await generateAccessAndRefreshToken(user._id)
 
+    console.log("Access Token: ",accessToken)
+    console.log("Refresh Token: ",refreshToken)
+
     const options={
         httpOnly:true,
         secure: true
     }
-
+    console.log(res.cookie("accessToken",accessToken,options))
     return res
     .status(200)
     .cookie("accessToken",accessToken,options)
