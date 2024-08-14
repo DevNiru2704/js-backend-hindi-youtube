@@ -74,7 +74,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password); //this.password is the correct password
 };
 
-userSchema.methods.generateAccessToken = async function () { //Access tokens are short lived
+userSchema.methods.generateAccessToken = function () { //Access tokens are short lived
     return jwt.sign(
         {
             //This is a payload. In a JSON Web Token (JWT), a payload is just an object that contains the actual data or claims about the user or the session, such as user ID or roles.
@@ -82,7 +82,7 @@ userSchema.methods.generateAccessToken = async function () { //Access tokens are
             _id: this.id,
             email: this.email,
             username: this.username,
-            fullName: this.fullName,
+            fullName: this.fullName
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
@@ -91,7 +91,7 @@ userSchema.methods.generateAccessToken = async function () { //Access tokens are
     ); //generates a sign in token
 };
 
-userSchema.methods.generateRefreshToken = async function () { //Refresh tokens are long lived
+userSchema.methods.generateRefreshToken = function () { //Refresh tokens are long lived
     return jwt.sign(
         {
             //Refresh token has less information
