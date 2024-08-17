@@ -62,11 +62,13 @@ const userSchema = new Schema(
 userSchema.pre("save", async function (next) {
     //This is a middleware hooks. We can modify the file before it uploads using pre or after using post, etc. Here arrow functions should not be used because they do have the reference of this keyword. The function should also be an asynchronous function because excrypting, hashing, etc. these all take time so we want this process running on the background.
     // this.password=bcrypt.hash(this.password,10) //we have encrypted this password but there is a problem. Whenever the data is saved it will encrypt the password . But we want to only encrypt the password one time. To avoid this we need to give a check.
-    if (this.isModified("password")) {
-        //This solves the problem
-        this.password = await bcrypt.hash(this.password, 10);
-        next();
+    if (!this.isModified("password")){ 
+        return next()
     }
+        //This solves the problem
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+    
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {

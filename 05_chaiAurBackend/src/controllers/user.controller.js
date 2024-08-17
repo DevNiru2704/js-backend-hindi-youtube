@@ -104,7 +104,7 @@ const loginUser=asyncHandler(async (req,res,next)=>{
     //if password is correct, generate access and refresh token
     //send the tokens in the cookies
     const {username,email,password}=req.body
-    console.log(email)
+    // console.log(email)
     if(!username && !email){
         throw new ApiError(400,"Username or email required!")
     }
@@ -127,14 +127,14 @@ const loginUser=asyncHandler(async (req,res,next)=>{
 
     const {accessToken,refreshToken,}=await generateAccessAndRefreshToken(user._id)
 
-    console.log("Access Token: ",accessToken)
-    console.log("Refresh Token: ",refreshToken)
+    // console.log("Access Token: ",accessToken)
+    // console.log("Refresh Token: ",refreshToken)
 
     const options={
         httpOnly:true,
         secure: true
     }
-    console.log(res.cookie("accessToken",accessToken,options))
+    // console.log(res.cookie("accessToken",accessToken,options))
     return res
     .status(200)
     .cookie("accessToken",accessToken,options)
@@ -217,6 +217,45 @@ const refreshAccessToken=asyncHandler(async (req,res)=>{
          )
     }
 
+})
+
+const changeCurrentPassword=asyncHandler(async (req,res)=>{
+    const {oldPassword,newPassword,confirmPassword}=req.body
+    if(newPassword!==confirmPassword){
+        throw new ApiError("401","Invalid new password!")
+    }
+    const user = await User.findById(req?.user._id)
+
+    if(!user){
+        throw new ApiError("401","User does not exist!")
+    }
+
+    const isPasswordCorrect=await user.isPasswordCorrect(oldPassword)
+
+    if(!isPasswordCorrect){
+        throw new ApiError("401","Invalid old password!")
+    }
+
+    user.password=newPassword
+    await user.save({validateBeforeSave:false})
+
+    return res
+    .status(200)
+    .json(new ApiResponse(
+        200,
+        {},
+        "Password Changed Successfully!"
+    ))
+})
+
+const getCurrentUser=asyncHandler(async (req,res)=>{
+    return res
+    .status(200)
+    .json(
+        200,
+        req.user,
+        "Current user fetched successfully!"
+    )
 })
 
 export {
