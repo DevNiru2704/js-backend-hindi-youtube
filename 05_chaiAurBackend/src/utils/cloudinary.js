@@ -20,7 +20,7 @@ const uploadOnCloudinary=async (localFilePath)=>{
         return response
     }catch(error){
         fs.unlinkSync(localFilePath) //Synchronous operation of unlinking unwanted or malicious operations
-        console.error("Error uploading file to Cloudinary:", error);
+        console.error("Error uploading file to Cloudinary: ", error);
         return null;
     }
 }
@@ -34,7 +34,7 @@ const deleteOnCloudinary=async(publicId)=>{
         })
         return response
     }catch(error){
-        console.error("Error deleting file from Cloudinary:", error);
+        console.error("Error deleting file from Cloudinary: ", error);
         return null;
     }
 }
