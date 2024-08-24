@@ -62,13 +62,12 @@ const userSchema = new Schema(
 userSchema.pre("save", async function (next) {
     //This is a middleware hooks. We can modify the file before it uploads using pre or after using post, etc. Here arrow functions should not be used because they do have the reference of this keyword. The function should also be an asynchronous function because excrypting, hashing, etc. these all take time so we want this process running on the background.
     // this.password=bcrypt.hash(this.password,10) //we have encrypted this password but there is a problem. Whenever the data is saved it will encrypt the password . But we want to only encrypt the password one time. To avoid this we need to give a check.
-    if (!this.isModified("password")){ 
-        return next()
+    if (!this.isModified("password")) {
+        return next();
     }
-        //This solves the problem
+    //This solves the problem
     this.password = await bcrypt.hash(this.password, 10);
     next();
-    
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {
@@ -76,7 +75,8 @@ userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password); //this.password is the correct password
 };
 
-userSchema.methods.generateAccessToken = function () { //Access tokens are short lived
+userSchema.methods.generateAccessToken = function () {
+    //Access tokens are short lived
     return jwt.sign(
         {
             //This is a payload. In a JSON Web Token (JWT), a payload is just an object that contains the actual data or claims about the user or the session, such as user ID or roles.
@@ -84,7 +84,7 @@ userSchema.methods.generateAccessToken = function () { //Access tokens are short
             _id: this.id,
             email: this.email,
             username: this.username,
-            fullName: this.fullName
+            fullName: this.fullName,
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
@@ -93,7 +93,8 @@ userSchema.methods.generateAccessToken = function () { //Access tokens are short
     ); //generates a sign in token
 };
 
-userSchema.methods.generateRefreshToken = function () { //Refresh tokens are long lived
+userSchema.methods.generateRefreshToken = function () {
+    //Refresh tokens are long lived
     return jwt.sign(
         {
             //Refresh token has less information

@@ -2,36 +2,28 @@
 import dotenv from "dotenv";
 // import mongoose from "mongoose";
 // import {} from "./constants.js";
-import {connectDB} from "./db/index.js"
-import { app } from "./app.js";
+import {connectDB} from "./db/index.js";
+import {app} from "./app.js";
 
 dotenv.config({
-    path:"../.env"
-})
+    path: "../.env",
+});
 
 //connectDB returns a promise because connectDB is an async await function
-const port=process.env.PORT||3000
+const port = process.env.PORT || 3000;
 connectDB()
-.then(()=>{
-    app.on("error",(error)=>{
-        console.log("ERROR: ",error);
-        throw error
+    .then(() => {
+        app.on("error", (error) => {
+            console.log("ERROR: ", error);
+            throw error;
+        });
+        app.listen(port, () => {
+            console.log(`Server is running at port:${port}`);
+        });
     })
-    app.listen(port,()=>{
-        console.log(`Server is running at port:${port}`)
-    })
-})
-.catch((error)=>{
-    console.log("MongoDB connection failed: ",error)
-}) 
-
-
-
-
-
-
-
-
+    .catch((error) => {
+        console.log("MongoDB connection failed: ", error);
+    });
 
 /*
 const app=express();
